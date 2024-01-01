@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CIndividual.cpp" />
     <ClCompile Include="Evaluator.cpp" />
     <ClCompile Include="fitness.cpp" />
     <ClCompile Include="list.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CIndividual.h" />
     <ClInclude Include="Evaluator.h" />
     <ClInclude Include="fitness.h" />
     <ClInclude Include="list.h" />
