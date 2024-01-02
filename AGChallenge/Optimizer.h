@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Evaluator.h"
+#include "CIndividual.h"
 
 #include <random>
 #include <vector>
@@ -14,10 +15,14 @@ public:
 
 	void vInitialize();
 	void vRunIteration();
+	void simulate(int PopSize, double CrossProb, double MutProb);
 
 	vector<int> *pvGetCurrentBest() { return &v_current_best; }
 
 private:
+	vector<CIndividual>* population;
+
+
 	void v_fill_randomly(vector<int> &vSolution);
 
 	CLFLnetEvaluator &c_evaluator;

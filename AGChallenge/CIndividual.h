@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Evaluator.h"
 
 using namespace std;
 
@@ -11,9 +12,8 @@ public:
     double dEvaluate();
     CIndividual mutate(const double& MutProb);
     vector<CIndividual> cross(const double& CrossProb, const CIndividual& other);
-    static void setEvaluator(CLFLnetEvaluator& other);
+    static void setEvaluator(CLFLnetEvaluator* other);
 private:
     vector<int>* genotype;
-    static CLFLnetEvaluator evaluator;
+    static CLFLnetEvaluator* evaluator;
 };
-

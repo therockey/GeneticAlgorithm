@@ -3,6 +3,8 @@
 
 using namespace std;
 
+CLFLnetEvaluator* CIndividual::evaluator = nullptr;
+
 CIndividual::CIndividual()
 {
 	genotype = new vector<int>();
@@ -15,7 +17,7 @@ CIndividual::CIndividual(const int& genSize)
 
 double CIndividual::dEvaluate()
 {
-	return evaluator.dEvaluate(genotype);
+	return evaluator->dEvaluate(genotype);
 }
 
 CIndividual CIndividual::mutate(const double& MutProb)
@@ -28,7 +30,7 @@ vector<CIndividual> CIndividual::cross(const double& CrossProb, const CIndividua
 	return vector<CIndividual>();
 }
 
-void CIndividual::setEvaluator(CLFLnetEvaluator& other)
+void CIndividual::setEvaluator(CLFLnetEvaluator* other)
 {
 	evaluator = other;
 }
