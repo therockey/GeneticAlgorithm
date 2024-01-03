@@ -9,6 +9,7 @@ class CIndividual
 public:
     CIndividual();
     CIndividual(const int& genSize);
+    CIndividual(const vector<int>& gen);
     CIndividual(const CIndividual& other);
     ~CIndividual();
     double dEvaluate() const;

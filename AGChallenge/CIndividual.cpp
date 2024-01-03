@@ -15,6 +15,11 @@ CIndividual::CIndividual(const int& genSize)
 	genotype = new vector<int>(genSize);
 }
 
+CIndividual::CIndividual(const vector<int>& gen)
+{
+	genotype = new vector<int>(gen);
+}
+
 CIndividual::CIndividual(const CIndividual& other)
 {
 	genotype = new vector<int>(*other.genotype);
@@ -34,7 +39,18 @@ double CIndividual::dEvaluate() const
 
 CIndividual CIndividual::mutate(const double& MutProb)
 {
-	return CIndividual();
+	vector<int> mutatedGenotype;
+
+	for (int i = 0; i < genotype->size(); i++) {
+		if (dRand() < MutProb) {
+			mutatedGenotype.push_back(lRand(evaluator->iGetNumberOfValues(i)));
+		}
+		else {
+			mutatedGenotype.push_back((*genotype)[i]);
+		}
+	}
+
+	return mutatedGenotype;
 }
 
 vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividual& other)
@@ -105,6 +121,7 @@ void CIndividual::setEvaluator(CLFLnetEvaluator* eval)
 
 void CIndividual::setGenotype(const vector<int>& other)
 {
+	delete genotype;
 	genotype = new vector<int>(other);
 }
 

@@ -21,6 +21,7 @@ void CGeneticAlgorithm::initialize()
 void CGeneticAlgorithm::runIter()
 {
 	crossPop();
+	mutatePop();
 }
 
 void CGeneticAlgorithm::run(double maxTime)
@@ -104,4 +105,15 @@ void CGeneticAlgorithm::crossPop()
 		population.push_back(newIndividual);
 	}
 	newGeneration.clear();
+}
+
+void CGeneticAlgorithm::mutatePop()
+{
+	for (int i = 0; i < population.size(); i++) {
+		CIndividual mutated = population[i]->mutate(mutProb);
+		if (mutated.dEvaluate() > population[i]->dEvaluate()) {
+			delete population[i];
+			population[i] = new CIndividual(mutated);
+		}
+	}
 }

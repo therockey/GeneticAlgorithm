@@ -71,7 +71,7 @@ void COptimizer::v_fill_randomly(vector<int> &vSolution)
 
 	for (int ii = 0; ii < vSolution.size(); ii++)
 	{
-		vSolution.at(ii) = 1+lRand(c_evaluator.iGetNumberOfValues(ii)-1);
+		vSolution.at(ii) = lRand(c_evaluator.iGetNumberOfValues(ii));
 	}//for (size_t i = 0; i < vSolution.size(); i++)
 }//void COptimizer::v_fill_randomly(const vector<int> &vSolution)
 

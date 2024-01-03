@@ -19,5 +19,6 @@ private:
 
 	void fillRandomly(vector<int>& gen);
 	void crossPop();
+	void mutatePop();
 };
 
