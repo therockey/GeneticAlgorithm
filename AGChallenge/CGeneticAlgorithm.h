@@ -8,7 +8,8 @@ public:
 	CGeneticAlgorithm(int population, double crossing, double mutation, CLFLnetEvaluator &eval);
 	void initialize();
 	void runIter();
-	vector<int> getSolution();
+	void run(double maxTime);
+	vector<int> getBestSolution();
 private:
 	CLFLnetEvaluator& evaluator;
 	vector<CIndividual*> population;
@@ -17,5 +18,6 @@ private:
 	double mutProb;
 
 	void fillRandomly(vector<int>& gen);
+	void crossPop();
 };
 

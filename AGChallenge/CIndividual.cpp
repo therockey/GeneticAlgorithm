@@ -20,6 +20,11 @@ CIndividual::CIndividual(const CIndividual& other)
 	genotype = new vector<int>(*other.genotype);
 }
 
+CIndividual::~CIndividual()
+{
+	delete genotype;
+}
+
 
 
 double CIndividual::dEvaluate() const
@@ -38,7 +43,8 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 	
 	if (dRand() < CrossProb) {
 		int crossPoint = lRand(genotype->size() - 2);
-		CIndividual* child;
+		CIndividual* child1;
+		CIndividual* child2;
 		vector<int> childGenotype;
 
 
@@ -53,17 +59,9 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 		}
 
 		// Apply the resulting genotype to a child 
-		child = new CIndividual(genotype->size());
-		child->setGenotype(childGenotype);
+		child1 = new CIndividual(genotype->size());
+		child1->setGenotype(childGenotype);
 
-		// If child no.1 is more fit than parent no.1, add it to the next generation
-		if (child->dEvaluate() > dEvaluate()) {
-			result.push_back(child);
-		}
-		else { // If not, proceed with parent no.1
-			delete child;
-			result.push_back(new CIndividual(*this));
-		}
 		childGenotype.clear();
 
 		// Crossing the first part of parent no.2 with second part of parent no.1
@@ -77,17 +75,10 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 		}
 
 		// Apply the resulting genotype to a child
-		child = new CIndividual(genotype->size());
-		child->setGenotype(childGenotype);
+		child2 = new CIndividual(genotype->size());
+		child2->setGenotype(childGenotype);
 
-		// If child no.2 is more fit than parent no.2, add it to the next generation
-		if (child->dEvaluate() > other.dEvaluate()) {
-			result.push_back(child);
-		}
-		else { // If not, proceed with parent no.2
-			delete child;
-			result.push_back(new CIndividual(other));
-		}
+		
 
 	}
 	else {
@@ -111,4 +102,9 @@ void CIndividual::setGenotype(const vector<int>& other)
 int CIndividual::getGenotypeSize()
 {
 	return genotype->size();
+}
+
+vector<int> CIndividual::getGenotype()
+{
+	return *genotype;
 }

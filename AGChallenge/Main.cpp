@@ -2,6 +2,7 @@
 #include "Optimizer.h"
 #include "Timer.h"
 #include "CIndividual.h"
+#include "CGeneticAlgorithm.h"
 
 #include <exception>
 #include <iostream>
@@ -58,20 +59,28 @@ void  vRunLFLExperiment(CString  sNetName)
 	
 }//void vRunRastriginExperiment(int iNumberOfBits, int iBitsPerFloat, int iMaskSeed)
 
+void runGAlgorithm(CString netName, int popSize, double crossProb, double mutProb) {
 
+	CLFLnetEvaluator eval;
+	eval.bConfigure(netName);
+	CGeneticAlgorithm algo(popSize, crossProb, mutProb, eval);
+
+	algo.initialize();
+
+	algo.getBestSolution();
+
+	algo.run(dMAX_TIME);
+
+	algo.getBestSolution();
+}
 
 void main(int iArgCount, char **ppcArgValues)
 {
-	
-	CIndividual::setEvaluator(new CLFLnetEvaluator());
-	
-	random_device c_mask_seed_generator;
-	int i_mask_seed = (int)c_mask_seed_generator();
+	CString networkName = "104b00";
+	int populationSize = 20;
+	double crossingProbability = 0.6;
+	double mutationProbability = 0.3;
 
-
-	CString  s_test;
-	vRunLFLExperiment("104b00");
+	runGAlgorithm(networkName, populationSize, crossingProbability, mutationProbability);
 	
-
-	
-}//void main(int iArgCount, char **ppcArgValues)
+}

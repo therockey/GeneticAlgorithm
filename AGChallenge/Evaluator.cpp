@@ -187,7 +187,7 @@ bool  CLFLnetEvaluator::b_read_demands(CString  sPairsFile)
 
 	fscanf(pf_pairs, "%ld\n", &l_num_of_pairs);
 	l_pairs_num = l_num_of_pairs;
-	cout << "Number of pairs: " << l_pairs_num << endl;
+	// cout << "Number of pairs: " << l_pairs_num << endl;
 
 
 	if (pl_capa != NULL)  delete[]  pl_capa;
@@ -568,8 +568,8 @@ int  CLFLnetEvaluator::i_read_one_node(FILE  *pfSource, long *plActualLinkNumber
 		return(10);
 
 
-	printf("Node number:%ld\n", l_node_number);
-	printf("Number of connected nodes:%d\n",i_connected_nodes);
+	// printf("Node number:%ld\n", l_node_number);
+	// printf("Number of connected nodes:%d\n",i_connected_nodes);
 
 
 		//node and link creating
@@ -583,7 +583,7 @@ int  CLFLnetEvaluator::i_read_one_node(FILE  *pfSource, long *plActualLinkNumber
 			return(10);
 
 
-		printf("Connected node num:%ld\n",l_connected_node_num);
+		// printf("Connected node num:%ld\n",l_connected_node_num);
 
 
 
@@ -593,7 +593,7 @@ int  CLFLnetEvaluator::i_read_one_node(FILE  *pfSource, long *plActualLinkNumber
 			return(10);
 
 
-		printf("Connected node link capacity:%ld\n",l_link_capacity);
+		// printf("Connected node link capacity:%ld\n",l_link_capacity);
 
 
 
