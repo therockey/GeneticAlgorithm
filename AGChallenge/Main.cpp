@@ -73,29 +73,5 @@ void main(int iArgCount, char **ppcArgValues)
 	vRunLFLExperiment("104b00");
 	
 
-	//CLFLnetEvaluator c_lfl_eval;
-	//c_lfl_eval.bConfigure("104b00");
-	//cout << "Number of nodes: " << c_lfl_eval.lGetNumberOfNodes() << endl;
-	//cout << "Number of links: " << c_lfl_eval.lGetNumberOfLinks() << endl;
-	//cout << "Number of bits: " << c_lfl_eval.iGetNumberOfBits() << endl;
-	//cout << "Number of values: " << c_lfl_eval.iGetNumberOfValues(1) << endl;
-
-
-	/*vRunIsingSpinGlassExperiment(81, 0, i_mask_seed);
-	vRunIsingSpinGlassExperiment(81, 0, iSEED_NO_MASK);
-
-	vRunLeadingOnesExperiment(50, i_mask_seed);
-	vRunLeadingOnesExperiment(50, iSEED_NO_MASK);
-
-	vRunMaxSatExperiment(25, 0, 4.27f, i_mask_seed);
-	vRunMaxSatExperiment(25, 0, 4.27f, iSEED_NO_MASK);
-
-	vRunNearestNeighborNKExperiment(100, 0, 4, i_mask_seed);
-	vRunNearestNeighborNKExperiment(100, 0, 4, iSEED_NO_MASK);
-
-	vRunOneMaxExperiment(100, i_mask_seed);
-	vRunOneMaxExperiment(100, iSEED_NO_MASK);
-
-	vRunRastriginExperiment(200, 10, i_mask_seed);
-	vRunRastriginExperiment(200, 10, iSEED_NO_MASK);*/
+	
 }//void main(int iArgCount, char **ppcArgValues)

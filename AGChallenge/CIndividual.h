@@ -9,10 +9,13 @@ class CIndividual
 public:
     CIndividual();
     CIndividual(const int& genSize);
-    double dEvaluate();
+    CIndividual(const CIndividual& other);
+    double dEvaluate() const;
     CIndividual mutate(const double& MutProb);
-    vector<CIndividual> cross(const double& CrossProb, const CIndividual& other);
-    static void setEvaluator(CLFLnetEvaluator* other);
+    vector<CIndividual*> cross(const double& CrossProb, const CIndividual& other);
+    static void setEvaluator(CLFLnetEvaluator* eval);
+    void setGenotype(const vector<int>& other);
+    int getGenotypeSize();
 private:
     vector<int>* genotype;
     static CLFLnetEvaluator* evaluator;

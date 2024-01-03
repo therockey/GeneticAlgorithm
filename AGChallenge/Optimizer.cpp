@@ -41,7 +41,24 @@ void COptimizer::vRunIteration()
 void COptimizer::simulate(int PopSize, double CrossProb, double MutProb)
 {
 
+	vector<CIndividual*> newPopulation;
+	vector<CIndividual*> children;
+	int parentFst = 0;
+	int parentSnd = 0;
+	int crossPoint = 0;
+	double crossingProbability = 0;
 
+	for (int i = 0; i < 100; i++) {
+		for (int j = 0; j < PopSize / 2; j++) {
+			parentFst = lRand(PopSize - 1);
+
+			do {
+				parentSnd = lRand(PopSize - 1);
+			} while (parentSnd == parentFst);
+
+
+		}
+	}
 
 }//void COptimizer::simulate()
 

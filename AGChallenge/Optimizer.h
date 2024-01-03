@@ -20,7 +20,7 @@ public:
 	vector<int> *pvGetCurrentBest() { return &v_current_best; }
 
 private:
-	vector<CIndividual>* population;
+	vector<CIndividual*> population;
 
 
 	void v_fill_randomly(vector<int> &vSolution);
