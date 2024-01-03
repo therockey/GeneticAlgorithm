@@ -78,7 +78,16 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 		child2 = new CIndividual(genotype->size());
 		child2->setGenotype(childGenotype);
 
-		
+		result.push_back(new CIndividual(*this));
+		result.push_back(new CIndividual(other));
+		result.push_back(child1);
+		result.push_back(child2);
+
+		selectSortChildren(result);
+		delete result.back();
+		result.pop_back();
+		delete result.back();
+		result.pop_back();
 
 	}
 	else {
@@ -107,4 +116,20 @@ int CIndividual::getGenotypeSize()
 vector<int> CIndividual::getGenotype()
 {
 	return *genotype;
+}
+
+void CIndividual::selectSortChildren(vector<CIndividual*> &other)
+{
+	int index;
+	for (int i = 0; i < other.size()-1; i++) {
+		index = i;
+		for (int j = i + 1; j < other.size(); j++) {
+			if (other[j]->dEvaluate() > other[index]->dEvaluate()) {
+				index = j;
+			}
+		}
+
+		if (index != i) swap(other[index], other[i]);
+	
+	}
 }

@@ -77,7 +77,7 @@ void runGAlgorithm(CString netName, int popSize, double crossProb, double mutPro
 void main(int iArgCount, char **ppcArgValues)
 {
 	CString networkName = "104b00";
-	int populationSize = 20;
+	int populationSize = 200;
 	double crossingProbability = 0.6;
 	double mutationProbability = 0.3;
 
