@@ -1,13 +1,16 @@
 #include "CGeneticAlgorithm.h"
 #include "Timer.h"
 #include "Evaluator.h"
+#include "CIsland.h"
+#include "CIndividual.h"
 using namespace TimeCounters;
 
-CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mutation)
+CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mutation, int islandsCount)
  {
 	popSize = population;
 	crossProb = crossing;
 	mutProb = mutation;
+	islandAmmount = islandsCount;
 
 	evaluator.bConfigure("g120d02");
 }
@@ -19,16 +22,21 @@ void CGeneticAlgorithm::initialize()
 	vector<int> genotype;
 
 	for (int i = 0; i < popSize; i++) {
-		fillRandomly(genotype);
-		population.push_back(new CIndividual());
-		population[i]->setGenotype(genotype);
+		fillIslandsRandomly();
 	}
 }
 
 void CGeneticAlgorithm::runIter()
 {
-	crossPop();
-	mutatePop();
+	for (size_t i = 0; i < islandAmmount; i++)
+	{
+		crossPop(islands[i]->getPopPointer());
+		mutatePop(islands[i]->getPopPointer());
+	}
+	if (lRand(100) == 1)
+	{
+		crossIslands();
+	}
 }
 
 void CGeneticAlgorithm::run(double maxTime)
@@ -49,35 +57,77 @@ void CGeneticAlgorithm::run(double maxTime)
 		if (iters % 5 == 0)
 		{
 			cout << iters << " ";
-			getBestSolution();
+			getBestSolutionFromAllIslands();
 			
 		}/*if (iters % 20 == 0)
 			mutProb *= 0.9;*/
 	}
 }
 
-
-vector<int> CGeneticAlgorithm::getBestSolution()
+void CGeneticAlgorithm::fillIslandsRandomly()
 {
+	for (size_t i = 0; i < islandAmmount; i++)
+	{
+		islands.push_back(new CIsland(popSize));
+		islands[i]->fillRandomly(evaluator);
+	}
+}
+
+void CGeneticAlgorithm::crossIslands()
+{
+	CIsland* host = islands[lRand(islandAmmount - 1)];
+	int œmia³kowie = 4;
+
+	vector<CIndividual*>* takenFromIslands = new vector<CIndividual*>();
+
+	//we'll take half best and half random
+	for (size_t i = 0; i < islandAmmount; i++)
+	{
+		vector<CIndividual*> someBestCurrent = *islands[i]->getSomeBest(œmia³kowie/2);
+		(*takenFromIslands).insert(takenFromIslands->end(), someBestCurrent.begin(), someBestCurrent.end());
+		
+		for (size_t j = 0; j < œmia³kowie/2; j++)
+		{
+			(*takenFromIslands).push_back(new CIndividual(*(*(islands[j]->getPopPointer()))[i]));
+		}
+	}
+	vector<CIndividual*>* bestFromHost = host->getSomeBest(host->getPopSize() - œmia³kowie * islandAmmount);
+
+	(*bestFromHost).insert(bestFromHost->end(), takenFromIslands->begin(), takenFromIslands->end());
+
+	//Here we changed the whole population for the expeditions from other islands and the rest is best individuals from host
+	host->changePopPointer(bestFromHost);
+}
+
+
+CIndividual* CGeneticAlgorithm::getBestSolutionForIsland(CIsland* island)
+{
+	vector<CIndividual*> population = *island->getPopPointer();
 	CIndividual* best = population[0];
 	for (int i = 1; i < population.size(); i++) 
 		if (population[i]->dEvaluate() > best->dEvaluate()) 
 			best = population[i];
-	cout << best->dEvaluate() << endl;
-	return best->getGenotype();
-}
-
-void CGeneticAlgorithm::fillRandomly(vector<int>& gen)
-{
-	gen.resize((size_t)evaluator.iGetNumberOfBits());
-
-	for (int ii = 0; ii < gen.size(); ii++)
-		gen.at(ii) = 1 + lRand(evaluator.iGetNumberOfValues(ii) - 1);
 	
+	return best;
+}
+
+vector<int> CGeneticAlgorithm::getBestSolutionFromAllIslands()
+{
+	CIndividual* currentBest = getBestSolutionForIsland(islands[0]);
+	for (size_t i = 1; i < islands.size(); i++)
+	{
+		if (getBestSolutionForIsland(islands[i])->dEvaluate() > currentBest->dEvaluate()) 
+		{
+			currentBest = getBestSolutionForIsland(islands[i]);
+		}
+	}
+	cout << currentBest->dEvaluate() << endl;
+	return currentBest->getGenotype();
 }
 
 
-void CGeneticAlgorithm::crossPop()
+
+void CGeneticAlgorithm::crossPop(vector<CIndividual*>* population)
 {
 	
 	vector<CIndividual*> children;
@@ -105,31 +155,31 @@ void CGeneticAlgorithm::crossPop()
 			parentSnd = lRand(popSize - 1);
 		} while (parentSnd == parentFst);*/
 
-		children = population[parentFst]->cross(crossProb, *population[parentSnd]);
+		children = (*population)[parentFst]->cross(crossProb, *(*population)[parentSnd]);
 
 		
-		delete population[parentFst];
-		delete population[parentSnd];
+		delete (*population)[parentFst];
+		delete (*population)[parentSnd];
 
-		population[parentFst]= children[0];
-		population[parentSnd] = children[1];
+		(*population)[parentFst] = children[0];
+		(*population)[parentSnd] = children[1];
 	}
 	
 	
 
 }
 
-void CGeneticAlgorithm::mutatePop()
+void CGeneticAlgorithm::mutatePop(vector<CIndividual*>* population)
 {
-	double lastBest = population[population.size()-1]->dEvaluate();
-	for (int i = 0; i < population.size(); i++) 
-		if(population[i]->dEvaluate() > lastBest)
-			lastBest = population[i]->dEvaluate();
+	double lastBest = (*population)[population->size()-1]->dEvaluate();
+	for (int i = 0; i < population->size(); i++) 
+		if((*population)[i]->dEvaluate() > lastBest)
+			lastBest = (*population)[i]->dEvaluate();
 		else {
-			CIndividual mutated = population[i]->mutate(mutProb);
-			if (mutated.dEvaluate() > population[i]->dEvaluate()) {
-				delete population[i];
-				population[i] = new CIndividual(mutated);
+			CIndividual mutated = (*population)[i]->mutate(mutProb);
+			if (mutated.dEvaluate() > (*population)[i]->dEvaluate()) {
+				delete (*population)[i];
+				(*population)[i] = new CIndividual(mutated);
 			}
 		}
 	

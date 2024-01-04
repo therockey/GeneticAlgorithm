@@ -1,24 +1,29 @@
 #pragma once
 #include "CIndividual.h"
+#include "CIsland.h"
 #include "Evaluator.h"
 
 class CGeneticAlgorithm
 {
 public:
-	CGeneticAlgorithm(int population, double crossing, double mutation);
+	CGeneticAlgorithm(int population, double crossing, double mutation,int islandAmmount);
 	void initialize();
 	void runIter();
 	void run(double maxTime);
-	vector<int> getBestSolution();
+	CIndividual* getBestSolutionForIsland(CIsland* island);
+	vector<int> getBestSolutionFromAllIslands();
+
 private:
 	CLFLnetEvaluator evaluator;
-	vector<CIndividual*> population;
+	vector<CIsland*> islands;
+	int islandAmmount;
 	int popSize; 
 	double crossProb;
 	double mutProb;
 	
-	void fillRandomly(vector<int>& gen);
-	void crossPop();
-	void mutatePop();
+	void fillIslandsRandomly();
+	void crossIslands();
+	void crossPop(vector<CIndividual*>* population);
+	void mutatePop(vector<CIndividual*>* population);
 };
 

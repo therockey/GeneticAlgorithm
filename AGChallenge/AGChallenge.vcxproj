@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="CGeneticAlgorithm.cpp" />
     <ClCompile Include="CIndividual.cpp" />
+    <ClCompile Include="CIsland.cpp" />
     <ClCompile Include="Evaluator.cpp" />
     <ClCompile Include="fitness.cpp" />
     <ClCompile Include="list.cpp" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="CGeneticAlgorithm.h" />
     <ClInclude Include="CIndividual.h" />
+    <ClInclude Include="CIsland.h" />
     <ClInclude Include="Evaluator.h" />
     <ClInclude Include="fitness.h" />
     <ClInclude Include="list.h" />

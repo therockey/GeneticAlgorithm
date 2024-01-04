@@ -16,17 +16,17 @@ using namespace std;
 
 
 
-void runGAlgorithm( int popSize, double crossProb, double mutProb) {
+void runGAlgorithm( int popSize, double crossProb, double mutProb, int islandAmmount) {
 
-	CGeneticAlgorithm algo(popSize, crossProb, mutProb);
+	CGeneticAlgorithm algo(popSize, crossProb, mutProb, islandAmmount);
 
 	algo.initialize();
 
-	algo.getBestSolution();
+	algo.getBestSolutionFromAllIslands();
 
 	algo.run(dMAX_TIME);
 
-	algo.getBestSolution();
+	algo.getBestSolutionFromAllIslands();
 }
 
 void main(int iArgCount, char **ppcArgValues)
@@ -34,7 +34,8 @@ void main(int iArgCount, char **ppcArgValues)
 	int populationSize = 100;
 	double crossingProbability = 0.9;
 	double mutationProbability = 0.4;
+	int islandAmmount = 10;
 
-	runGAlgorithm( populationSize, crossingProbability, mutationProbability);
+	runGAlgorithm( populationSize, crossingProbability, mutationProbability, islandAmmount);
 	
 }
