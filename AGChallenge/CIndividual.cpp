@@ -41,14 +41,11 @@ CIndividual CIndividual::mutate(const double& MutProb)
 {
 	vector<int> mutatedGenotype;
 
-	for (int i = 0; i < genotype->size(); i++) {
-		if (dRand() < MutProb) {
+	for (int i = 0; i < genotype->size(); i++) 
+		if (dRand() < MutProb) 
 			mutatedGenotype.push_back(lRand(evaluator->iGetNumberOfValues(i)));
-		}
-		else {
+		else 
 			mutatedGenotype.push_back((*genotype)[i]);
-		}
-	}
 
 	return mutatedGenotype;
 }
@@ -56,60 +53,46 @@ CIndividual CIndividual::mutate(const double& MutProb)
 vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividual& other)
 {
 	vector<CIndividual*> result;
-	
-	if (dRand() < CrossProb) {
-		int crossPoint = lRand(genotype->size() - 2);
-		CIndividual* child1;
-		CIndividual* child2;
-		vector<int> childGenotype;
+	result.push_back(new CIndividual(*this));
+	result.push_back(new CIndividual(other));
+	if (dRand() >= CrossProb)
+			return result;
 
+	CIndividual* child1;
+	CIndividual* child2;
+	vector<int> childGenotype1;
+	vector<int> childGenotype2;
+	child1 = new CIndividual(genotype->size());
+	child2 = new CIndividual(genotype->size());
 
-		// Crossing the first part of parent no.1 with second part of parent no.2
-		for (int x = 0; x < genotype->size(); x++) {
-			if (x < crossPoint) {
-				childGenotype.push_back((*genotype)[x]);
-			}
-			else {
-				childGenotype.push_back((*other.genotype)[x]);
-			}
+	// Crossing the first part of parent no.1 with second part of parent no.2
+	for (int x = 0; x < genotype->size(); x++)
+		if (lRand(10) > 5) {
+			childGenotype1.push_back((*genotype)[x]);
+			childGenotype2.push_back((*other.genotype)[x]);
+		}
+		else {
+			childGenotype1.push_back((*other.genotype)[x]);
+			childGenotype2.push_back((*genotype)[x]);
 		}
 
-		// Apply the resulting genotype to a child 
-		child1 = new CIndividual(genotype->size());
-		child1->setGenotype(childGenotype);
 
-		childGenotype.clear();
+	// Apply the resulting genotype to a child 
 
-		// Crossing the first part of parent no.2 with second part of parent no.1
-		for (int x = 0; x < genotype->size(); x++) {
-			if (x < crossPoint) {
-				childGenotype.push_back((*other.genotype)[x]);
-			}
-			else {
-				childGenotype.push_back((*genotype)[x]);
-			}
-		}
+	child1->setGenotype(childGenotype1);
+	child2->setGenotype(childGenotype2);
 
-		// Apply the resulting genotype to a child
-		child2 = new CIndividual(genotype->size());
-		child2->setGenotype(childGenotype);
+	// Apply the resulting genotype to a child
 
-		result.push_back(new CIndividual(*this));
-		result.push_back(new CIndividual(other));
-		result.push_back(child1);
-		result.push_back(child2);
 
-		selectSortChildren(result);
-		delete result.back();
-		result.pop_back();
-		delete result.back();
-		result.pop_back();
+	result.push_back(child1);
+	result.push_back(child2);
 
-	}
-	else {
-		result.push_back(new CIndividual(*this));
-		result.push_back(new CIndividual(other));
-	}
+	selectSortChildren(result);
+	delete result.back();
+	result.pop_back();
+	delete result.back();
+	result.pop_back();
 
 	return result;
 }
@@ -135,18 +118,13 @@ vector<int> CIndividual::getGenotype()
 	return *genotype;
 }
 
-void CIndividual::selectSortChildren(vector<CIndividual*> &other)
+void CIndividual::selectSortChildren(vector<CIndividual*>& other)
 {
 	int index;
-	for (int i = 0; i < other.size()-1; i++) {
+	for (int i = 0; i < other.size() - 1; i++) {
 		index = i;
-		for (int j = i + 1; j < other.size(); j++) {
-			if (other[j]->dEvaluate() > other[index]->dEvaluate()) {
-				index = j;
-			}
-		}
-
+		for (int j = i + 1; j < other.size(); j++) 
+			if (other[j]->dEvaluate() > other[index]->dEvaluate()) 	index = j;
 		if (index != i) swap(other[index], other[i]);
-	
 	}
 }
