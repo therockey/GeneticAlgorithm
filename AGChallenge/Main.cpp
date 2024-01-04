@@ -12,11 +12,11 @@ using namespace TimeCounters;
 
 using namespace std;
 
-#define dMAX_TIME 4 * 60
+#define dMAX_TIME 0.5* 60
 
 
 
-void runGAlgorithm(CString netName, int popSize, double crossProb, double mutProb) {
+void runGAlgorithm( int popSize, double crossProb, double mutProb) {
 
 	CGeneticAlgorithm algo(popSize, crossProb, mutProb);
 
@@ -31,11 +31,10 @@ void runGAlgorithm(CString netName, int popSize, double crossProb, double mutPro
 
 void main(int iArgCount, char **ppcArgValues)
 {
-	CString networkName = "104b00";
-	int populationSize = 50;
-	double crossingProbability = 0.6;
-	double mutationProbability = 0.1;
+	int populationSize = 100;
+	double crossingProbability = 0.9;
+	double mutationProbability = 0.4;
 
-	runGAlgorithm(networkName, populationSize, crossingProbability, mutationProbability);
+	runGAlgorithm( populationSize, crossingProbability, mutationProbability);
 	
 }

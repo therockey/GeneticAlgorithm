@@ -9,7 +9,7 @@ CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mut
 	crossProb = crossing;
 	mutProb = mutation;
 
-	evaluator.bConfigure("104b00");
+	evaluator.bConfigure("g120d02");
 }
 
 void CGeneticAlgorithm::initialize()
@@ -35,14 +35,24 @@ void CGeneticAlgorithm::run(double maxTime)
 {
 	CTimeCounter counter;
 	double timeElapsed;
+
 	counter.vSetStartNow();
 	counter.bGetTimePassed(&timeElapsed);
 
-
-	while (timeElapsed <= maxTime)
+	int iters = 0;
+	//while (timeElapsed <= maxTime)
+	while(iters < 2000)
 	{
 		runIter();
 		counter.bGetTimePassed(&timeElapsed);
+		iters++;
+		if (iters % 5 == 0)
+		{
+			cout << iters << " ";
+			getBestSolution();
+			
+		}/*if (iters % 20 == 0)
+			mutProb *= 0.9;*/
 	}
 }
 
@@ -66,23 +76,35 @@ void CGeneticAlgorithm::fillRandomly(vector<int>& gen)
 	
 }
 
+
 void CGeneticAlgorithm::crossPop()
 {
-	vector<CIndividual*> newGeneration;
+	
 	vector<CIndividual*> children;
 	int parentFst;
 	int parentSnd;
 
+
+	vector<int> visited;
+	for (int i = 0; i < popSize; i++)
+		visited.push_back(i);
+	random_shuffle(visited.begin(), visited.end());
+
+	//for (int i=0;i<popSize;i++)
+	//	cout<<visited[i]<<" ";
+
 	for (int i = 0; i < popSize / 2; i++) {
 
-		parentFst = lRand(popSize - 1);
+		parentFst = visited.back();
+		visited.pop_back();
+		parentSnd = visited.back();
+		visited.pop_back();
+		/*parentFst = lRand(popSize - 1);
 
 		do {
 			parentSnd = lRand(popSize - 1);
-		} while (parentSnd == parentFst);
+		} while (parentSnd == parentFst);*/
 
-
-		
 		children = population[parentFst]->cross(crossProb, *population[parentSnd]);
 
 		
@@ -92,15 +114,23 @@ void CGeneticAlgorithm::crossPop()
 		population[parentFst]= children[0];
 		population[parentSnd] = children[1];
 	}
+	
+	
+
 }
 
 void CGeneticAlgorithm::mutatePop()
 {
-	for (int i = 0; i < population.size(); i++) {
-		CIndividual mutated = population[i]->mutate(mutProb);
-		if (mutated.dEvaluate() > population[i]->dEvaluate()) {
-			delete population[i];
-			population[i] = new CIndividual(mutated);
+	double lastBest = population[population.size()-1]->dEvaluate();
+	for (int i = 0; i < population.size(); i++) 
+		if(population[i]->dEvaluate() > lastBest)
+			lastBest = population[i]->dEvaluate();
+		else {
+			CIndividual mutated = population[i]->mutate(mutProb);
+			if (mutated.dEvaluate() > population[i]->dEvaluate()) {
+				delete population[i];
+				population[i] = new CIndividual(mutated);
+			}
 		}
-	}
+	
 }

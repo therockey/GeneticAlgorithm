@@ -6,6 +6,7 @@ using namespace std;
 
 class CIndividual
 {
+    friend class CGeneticAlgorithm;
 public:
     CIndividual();
     CIndividual(const int& genSize);
@@ -22,6 +23,5 @@ public:
 private:
     vector<int>* genotype;
     static CLFLnetEvaluator* evaluator;
-
-    void selectSortChildren(vector<CIndividual*>& other);
+    static void selectSortChildren(vector<CIndividual*>& other);
 };

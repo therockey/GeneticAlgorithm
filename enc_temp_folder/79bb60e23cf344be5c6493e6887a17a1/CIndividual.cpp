@@ -65,6 +65,7 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 	child1 = new CIndividual(genotype->size());
 	child2 = new CIndividual(genotype->size());
 
+	// Crossing the first part of parent no.1 with second part of parent no.2
 	//if (lRand(10) > 8) {
 	//	int breakPoint = lRand(genotype->size() - 1);
 	//	for (int x = 0; x < genotype->size(); x++) {
