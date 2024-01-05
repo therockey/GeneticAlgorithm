@@ -12,7 +12,7 @@ using namespace TimeCounters;
 
 using namespace std;
 
-#define dMAX_TIME 0.5* 60
+#define dMAX_TIME 0.2* 60
 
 
 

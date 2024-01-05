@@ -1,8 +1,8 @@
 #include "CGeneticAlgorithm.h"
 #include "Timer.h"
 #include "Evaluator.h"
+#include <thread>
 using namespace TimeCounters;
-
 
 
 
@@ -10,32 +10,58 @@ using namespace TimeCounters;
 CGeneticAlgorithm::CGeneticAlgorithm(CString algoName)
 {
 
-	int populationSize = 100;
+	int populationSize = 1000;
 	double crossingProbability = 0.9;
 	double mutationProbability = 0.25;
 
-	Island*algo= new Island(populationSize, crossingProbability, mutationProbability, algoName);
-	islands.push_back(algo);
-	Island* algo2 = new Island(populationSize, crossingProbability, mutationProbability, algoName);
-	islands.push_back(algo);
+	for (int i = 0;i < 3;i++)
+	{
+		islands.push_back(new Island(populationSize, crossingProbability, mutationProbability, algoName));
+	}
 	
 }
 
 void CGeneticAlgorithm::run(double time)
 {
-
-	int iters = 30;
-	int i = 0;
 	for (int i = 0;i < islands.size();i++) {
 		islands[i]->initialize();
-
-		islands[i]->getBestSolution();
-
-		islands[i]->run(iters);
-
 		islands[i]->getBestSolution();
 	}
+	vector<thread> threads;
+
+
+	CTimeCounter counter;
+	double timeElapsed;
+
+	counter.vSetStartNow();
+	counter.bGetTimePassed(&timeElapsed);
+	int allit = 0;
+	while (timeElapsed <= time)
+	{
+		int iters = 2;
+		
+		for (int i = 0;i < islands.size();i++)
+		{
+			thread t(&CGeneticAlgorithm::threadOperation, this, i, iters);
+			threads.push_back(std::move(t));
+		}
+		for (int i = 0; i < threads.size(); ++i) {
+			threads[i].join();
+		}
+
+		threads.clear();
+		allit++;
+	}
+	
+	
 }
+
+void CGeneticAlgorithm::threadOperation(int i,int iters)
+{
+		islands[i]->run(iters);
+		islands[i]->getBestSolution();
+}
+
 
 
 
@@ -82,12 +108,13 @@ void Island::run(int iters)
 		runIter();
 		counter.bGetTimePassed(&timeElapsed);
 		iterscurr++;
-		if (iterscurr % 5 == 0)
+		/*if (iterscurr % 5 == 0)
 		{
 			cout << iterscurr << " ";
 			getBestSolution();
 			
-		}/*if (iters % 20 == 0)
+		}*/
+		/*if (iters % 20 == 0)
 			mutProb *= 0.9;*/
 	}
 }

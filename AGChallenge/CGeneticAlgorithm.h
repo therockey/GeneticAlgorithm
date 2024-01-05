@@ -3,6 +3,7 @@
 #include "Evaluator.h"
 #include <vector>
 
+
 class Island
 {
 public:
@@ -31,6 +32,7 @@ public:
 	CGeneticAlgorithm(CString algoName);
 	void run(double time);
 	vector<Island*> islands;
+	void threadOperation(int i,int iters);
 	//CLFLnetEvaluator evaluator;
 	//vector<CIndividual*> population;
 	//int popSize; 
