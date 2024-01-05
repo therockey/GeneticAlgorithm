@@ -4,12 +4,24 @@
 using namespace TimeCounters;
 
 CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mutation)
+	: evaluator(CLFLnetEvaluator())
  {
 	popSize = population;
 	crossProb = crossing;
 	mutProb = mutation;
 
 	evaluator.bConfigure("g120d02");
+}
+
+CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mutation, CLFLnetEvaluator& eval)
+	: evaluator(eval)
+{
+	popSize = population;
+	crossProb = crossing;
+	mutProb = mutation;
+	evaluator = eval;
+
+	//evaluator.bConfigure("g120d02");
 }
 
 void CGeneticAlgorithm::initialize()
@@ -104,19 +116,15 @@ void CGeneticAlgorithm::crossPop()
 		do {
 			parentSnd = lRand(popSize - 1);
 		} while (parentSnd == parentFst);*/
-
+	
 		children = population[parentFst]->cross(crossProb, *population[parentSnd]);
 
-		
 		delete population[parentFst];
 		delete population[parentSnd];
 
 		population[parentFst]= children[0];
 		population[parentSnd] = children[1];
 	}
-	
-	
-
 }
 
 void CGeneticAlgorithm::mutatePop()

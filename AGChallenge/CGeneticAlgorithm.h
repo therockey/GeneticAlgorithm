@@ -4,14 +4,16 @@
 
 class CGeneticAlgorithm
 {
+	friend class IslandModel;
 public:
 	CGeneticAlgorithm(int population, double crossing, double mutation);
+	CGeneticAlgorithm(int population, double crossing, double mutation, CLFLnetEvaluator& eval);
 	void initialize();
 	void runIter();
 	void run(double maxTime);
 	vector<int> getBestSolution();
 private:
-	CLFLnetEvaluator evaluator;
+	CLFLnetEvaluator &evaluator;
 	vector<CIndividual*> population;
 	int popSize; 
 	double crossProb;

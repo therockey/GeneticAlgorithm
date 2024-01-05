@@ -7,6 +7,7 @@ using namespace std;
 class CIndividual
 {
     friend class CGeneticAlgorithm;
+    friend class IslandModel;
 public:
     CIndividual();
     CIndividual(const int& genSize);
