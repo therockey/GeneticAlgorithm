@@ -9,7 +9,7 @@ CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mut
 	crossProb = crossing;
 	mutProb = mutation;
 
-	evaluator.bConfigure("g120d02");
+	evaluator.bConfigure("104b00");
 }
 
 void CGeneticAlgorithm::initialize()
@@ -206,7 +206,7 @@ void CGeneticAlgorithm::erasmus()
 	//erasmus to wiadomo du¿o seksiku hehe
 
 	int ammountOfStudents = popSize/10;
-	cout << "sraka";
+	cout << "NIECH DZIEJE SIE ERASMUS!!\n";
 	vector<CIndividual*> bestFromBoth = getSomeBestAndSortPopulations(ammountOfStudents);
 	//they will match untill their heir is better and not spend money on useless degree
 	vector<CIndividual*> allPerfectChildren; 
@@ -233,6 +233,7 @@ void CGeneticAlgorithm::erasmus()
 			allPerfectChildren.push_back(perfectChildrenPair[0]);
 			allPerfectChildren.push_back(perfectChildrenPair[2]);
 		}
+		/*cout << "tu w erasmusie nastapilo" << j << "powt\n";*/
 	}
 
 	//now we have to cross them back with their folks they introduce diversity
@@ -285,13 +286,9 @@ void CGeneticAlgorithm::erasmus()
 	}
 
 }
-vector<CIndividual*> CGeneticAlgorithm::getSomeBest(int ammount)
+vector<CIndividual*> CGeneticAlgorithm::getSomeBestAndSortPopulations(int ammount)
 {
-	if (population1.empty() || population2.empty())
-	{
-		cout << "sraka";
-	}
-	cout << "sraka";
+	
 	vector<CIndividual*> someBest;
 	//taken from first
 	CIndividual::selectSortChildren(population1);
