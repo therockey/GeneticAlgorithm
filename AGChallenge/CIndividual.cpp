@@ -1,26 +1,27 @@
 #include "CIndividual.h"
 #include "Evaluator.h"
+#include "Evaluator.h"
 
 using namespace std;
 
-CLFLnetEvaluator* CIndividual::evaluator = nullptr;
 
-CIndividual::CIndividual()
+
+CIndividual::CIndividual(CLFLnetEvaluator& eval):evaluator(eval)
 {
 	genotype = new vector<int>();
 }
 
-CIndividual::CIndividual(const int& genSize)
+CIndividual::CIndividual(const int& genSize, CLFLnetEvaluator& eval) :evaluator(eval)
 {
 	genotype = new vector<int>(genSize);
 }
 
-CIndividual::CIndividual(const vector<int>& gen)
+CIndividual::CIndividual(const vector<int>& gen, CLFLnetEvaluator& eval) :evaluator(eval)
 {
 	genotype = new vector<int>(gen);
 }
 
-CIndividual::CIndividual(const CIndividual& other)
+CIndividual::CIndividual(const CIndividual& other, CLFLnetEvaluator& eval) :evaluator(eval)
 {
 	genotype = new vector<int>(*other.genotype);
 }
@@ -34,27 +35,27 @@ CIndividual::~CIndividual()
 
 double CIndividual::dEvaluate() const
 {
-	return evaluator->dEvaluate(genotype);
+	return evaluator.dEvaluate(genotype);
 }
 
 CIndividual CIndividual::mutate(const double& MutProb)
 {
 	vector<int> mutatedGenotype;
 
-	for (int i = 0; i < genotype->size(); i++) 
-		if (dRand() < MutProb) 
-			mutatedGenotype.push_back(lRand(evaluator->iGetNumberOfValues(i)));
-		else 
+	for (int i = 0; i < genotype->size(); i++)
+		if (dRand() < MutProb)
+			mutatedGenotype.push_back(lRand(evaluator.iGetNumberOfValues(i)));
+		else
 			mutatedGenotype.push_back((*genotype)[i]);
 
-	return mutatedGenotype;
+	return {mutatedGenotype, evaluator};
 }
 
 vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividual& other)
 {
 	vector<CIndividual*> result;
-	result.push_back(new CIndividual(*this));
-	result.push_back(new CIndividual(other));
+	result.push_back(new CIndividual(*this, evaluator));
+	result.push_back(new CIndividual(other, evaluator));
 	if (dRand() >= CrossProb)
 			return result;
 
@@ -62,8 +63,8 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 	CIndividual* child2;
 	vector<int> childGenotype1;
 	vector<int> childGenotype2;
-	child1 = new CIndividual(genotype->size());
-	child2 = new CIndividual(genotype->size());
+	child1 = new CIndividual(genotype->size(), evaluator);
+	child2 = new CIndividual(genotype->size(),evaluator);
 
 	//if (lRand(10) > 8) {
 	//	int breakPoint = lRand(genotype->size() - 1);
@@ -81,7 +82,7 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 	//else {
 
 		for (int x = 0; x < genotype->size(); x++)
-			if (lRand(10) > 4) {
+			if (lRand(10) > 5) {
 				childGenotype1.push_back((*genotype)[x]);
 				childGenotype2.push_back((*other.genotype)[x]);
 			}
@@ -102,27 +103,24 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 
 	selectSortChildren(result);
 	
-	if(lRand(100)>90)
+	/*if(lRand(100)>90)
 	{
 		delete result[1];
 		result[1] = result[3];
 		result.pop_back();
 	}
 	else
-	{
+	{*/
 		delete result.back();
 		result.pop_back();
-	}
+	//}
 	delete result.back();
 	result.pop_back();
 
 	return result;
 }
 
-void CIndividual::setEvaluator(CLFLnetEvaluator* eval)
-{
-	evaluator = eval;
-}
+
 
 void CIndividual::setGenotype(const vector<int>& other)
 {

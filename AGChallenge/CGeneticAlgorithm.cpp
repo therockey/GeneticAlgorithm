@@ -3,35 +3,71 @@
 #include "Evaluator.h"
 using namespace TimeCounters;
 
-CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mutation)
+
+
+
+
+CGeneticAlgorithm::CGeneticAlgorithm(CString algoName)
+{
+
+	int populationSize = 100;
+	double crossingProbability = 0.9;
+	double mutationProbability = 0.25;
+
+	Island*algo= new Island(populationSize, crossingProbability, mutationProbability, algoName);
+	islands.push_back(algo);
+	Island* algo2 = new Island(populationSize, crossingProbability, mutationProbability, algoName);
+	islands.push_back(algo);
+	
+}
+
+void CGeneticAlgorithm::run(double time)
+{
+
+	int iters = 30;
+	int i = 0;
+	for (int i = 0;i < islands.size();i++) {
+		islands[i]->initialize();
+
+		islands[i]->getBestSolution();
+
+		islands[i]->run(iters);
+
+		islands[i]->getBestSolution();
+	}
+}
+
+
+
+Island::Island(int population, double crossing, double mutation,CString algoName)
  {
 	popSize = population;
 	crossProb = crossing;
 	mutProb = mutation;
 
-	evaluator.bConfigure("104b00");
+	evaluator.bConfigure(algoName);
 }
 
-void CGeneticAlgorithm::initialize()
+void Island::initialize()
 {
-	CIndividual::setEvaluator(&evaluator);
+	//CIndividual::setEvaluator(&evaluator);
 
 	vector<int> genotype;
 
 	for (int i = 0; i < popSize; i++) {
 		fillRandomly(genotype);
-		population.push_back(new CIndividual());
+		population.push_back(new CIndividual(evaluator));
 		population[i]->setGenotype(genotype);
 	}
 }
 
-void CGeneticAlgorithm::runIter()
+void Island::runIter()
 {
 	crossPop();
 	mutatePop();
 }
 
-void CGeneticAlgorithm::run(double maxTime)
+void Island::run(int iters)
 {
 	CTimeCounter counter;
 	double timeElapsed;
@@ -39,16 +75,16 @@ void CGeneticAlgorithm::run(double maxTime)
 	counter.vSetStartNow();
 	counter.bGetTimePassed(&timeElapsed);
 
-	int iters = 0;
+	int iterscurr = 0;
 	//while (timeElapsed <= maxTime)
-	while(iters < 5000)
+	while(iterscurr < iters)
 	{
 		runIter();
 		counter.bGetTimePassed(&timeElapsed);
-		iters++;
-		if (iters % 5 == 0)
+		iterscurr++;
+		if (iterscurr % 5 == 0)
 		{
-			cout << iters << " ";
+			cout << iterscurr << " ";
 			getBestSolution();
 			
 		}/*if (iters % 20 == 0)
@@ -57,7 +93,7 @@ void CGeneticAlgorithm::run(double maxTime)
 }
 
 
-vector<int> CGeneticAlgorithm::getBestSolution()
+vector<int> Island::getBestSolution()
 {
 	CIndividual* best = population[0];
 	for (int i = 1; i < population.size(); i++) 
@@ -67,7 +103,7 @@ vector<int> CGeneticAlgorithm::getBestSolution()
 	return best->getGenotype();
 }
 
-void CGeneticAlgorithm::fillRandomly(vector<int>& gen)
+void Island::fillRandomly(vector<int>& gen)
 {
 	gen.resize((size_t)evaluator.iGetNumberOfBits());
 
@@ -77,7 +113,7 @@ void CGeneticAlgorithm::fillRandomly(vector<int>& gen)
 }
 
 
-void CGeneticAlgorithm::crossPop()
+void Island::crossPop()
 {
 	
 	vector<CIndividual*> children;
@@ -119,14 +155,16 @@ void CGeneticAlgorithm::crossPop()
 
 }
 
-void CGeneticAlgorithm::mutatePop()
+void Island::mutatePop()
 {
 	for (int i = 0; i < population.size(); i++){
 			CIndividual mutated = population[i]->mutate(mutProb);
 			if (mutated.dEvaluate() > population[i]->dEvaluate()) {
 				delete population[i];
-				population[i] = new CIndividual(mutated);
+				population[i] = new CIndividual(mutated, evaluator);
 			}
 		}
 	
 }
+
+

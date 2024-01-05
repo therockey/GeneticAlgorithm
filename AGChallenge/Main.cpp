@@ -16,25 +16,16 @@ using namespace std;
 
 
 
-void runGAlgorithm( int popSize, double crossProb, double mutProb) {
+void runGAlgorithm( CString algoName) {
 
-	CGeneticAlgorithm algo(popSize, crossProb, mutProb);
-
-	algo.initialize();
-
-	algo.getBestSolution();
-
+	CGeneticAlgorithm algo(algoName);
 	algo.run(dMAX_TIME);
-
-	algo.getBestSolution();
 }
 
 void main(int iArgCount, char **ppcArgValues)
 {
-	int populationSize = 1000;
-	double crossingProbability = 0.7;
-	double mutationProbability = 0.25;
 
-	runGAlgorithm( populationSize, crossingProbability, mutationProbability);
+
+	runGAlgorithm( "104b00");
 	
 }
