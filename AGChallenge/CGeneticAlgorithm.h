@@ -12,7 +12,8 @@ public:
 	vector<int> getBestSolution();
 private:
 	CLFLnetEvaluator evaluator;
-	vector<CIndividual*> population;
+	vector<CIndividual*> population1;
+	vector<CIndividual*> population2;
 	int popSize; 
 	double crossProb;
 	double mutProb;
@@ -20,5 +21,6 @@ private:
 	void fillRandomly(vector<int>& gen);
 	void crossPop();
 	void mutatePop();
+	void erasmus();
 };
 
