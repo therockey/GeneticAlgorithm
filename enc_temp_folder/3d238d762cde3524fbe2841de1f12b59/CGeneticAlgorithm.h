@@ -23,7 +23,7 @@ private:
 	void mutatePop();
 	void erasmus();
 
-	vector<CIndividual*> getSomeBest(int ammount);
+	//vector<CIndividual*> getSomeBestAndSortPopulations(int ammount);
 
 };
 

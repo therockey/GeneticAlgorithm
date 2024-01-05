@@ -202,103 +202,23 @@ void CGeneticAlgorithm::mutatePop()
 
 void CGeneticAlgorithm::erasmus()
 {
-	//each to each from some best individuals from both
-	//erasmus to wiadomo du¿o seksiku hehe
-
-	int ammountOfStudents = popSize/10;
-	cout << "sraka";
-	vector<CIndividual*> bestFromBoth = getSomeBestAndSortPopulations(ammountOfStudents);
-	//they will match untill their heir is better and not spend money on useless degree
-	vector<CIndividual*> allPerfectChildren; 
-	vector<CIndividual*> perfectChildrenPair;
-	vector<CIndividual*> tempPerfectChildrenPair;
-	CIndividual* fstPopParent;
-	CIndividual* sndPopParent;
-	for (size_t j = 0; j < ammountOfStudents / 2; j++) {
-		fstPopParent = bestFromBoth[j];
-		for (size_t i = ammountOfStudents / 2;i < ammountOfStudents; i++) {
-			sndPopParent = bestFromBoth[i];
-			perfectChildrenPair.push_back(fstPopParent);
-			perfectChildrenPair.push_back(sndPopParent);
-			for (size_t i = 0; i < 10; i++)
-			{
-				tempPerfectChildrenPair = fstPopParent->cross(0.5, *sndPopParent);
-				tempPerfectChildrenPair.insert(tempPerfectChildrenPair.end(), perfectChildrenPair.begin(), perfectChildrenPair.end());
-				CIndividual::selectSortChildren(tempPerfectChildrenPair);
-				
-				perfectChildrenPair.clear();
-				perfectChildrenPair.push_back(tempPerfectChildrenPair[0]);
-				perfectChildrenPair.push_back(tempPerfectChildrenPair[1]);
-			}
-			allPerfectChildren.push_back(perfectChildrenPair[0]);
-			allPerfectChildren.push_back(perfectChildrenPair[2]);
-		}
-	}
-
-	//now we have to cross them back with their folks they introduce diversity
-	vector<CIndividual*> children;
-	int parentFst;
-
-
-	vector<int> visited;
-	//first population
-	for (int i = 0; i < popSize; i++)
-		visited.push_back(i);
-	random_shuffle(visited.begin(), visited.end());
-
-	//for (int i=0;i<popSize;i++)
-	//	cout<<visited[i]<<" ";
-	int ammountOfPerfectChildren = ammountOfStudents * ammountOfStudents / 4 - 1;
-
-	for (int i = 0; i < popSize; i++) {
-
-		parentFst = visited.back();
-		visited.pop_back();
-		
-		children = population1[parentFst]->cross(crossProb, *allPerfectChildren[popSize % ammountOfPerfectChildren]);
-		delete children[1];
-
-		delete population1[parentFst];
-
-		population1[parentFst] = children[0];
-	}
-	//sec population
-	for (int i = 0; i < popSize; i++)
-		visited.push_back(i);
-	random_shuffle(visited.begin(), visited.end());
-
-	//for (int i=0;i<popSize;i++)
-	//	cout<<visited[i]<<" ";
-
-
-	for (int i = 0; i < popSize; i++) {
-
-		parentFst = visited.back();
-		visited.pop_back();
-
-		children = population2[parentFst]->cross(crossProb, *allPerfectChildren[popSize % ammountOfPerfectChildren]);
-		delete children[1];
-
-		delete population2[parentFst];
-
-		population2[parentFst] = children[0];
-	}
+	
 
 }
-vector<CIndividual*> CGeneticAlgorithm::getSomeBest(int ammount)
-{
-	if (population1.empty() || population2.empty())
-	{
-		cout << "sraka";
-	}
-	cout << "sraka";
-	vector<CIndividual*> someBest;
-	//taken from first
-	CIndividual::selectSortChildren(population1);
-	CIndividual::selectSortChildren(population2);
-
-	//taken form second
-	someBest.insert(someBest.end(), population1.begin(), population1.begin() + ammount / 2);
-	someBest.insert(someBest.end(), population2.begin(), population2.begin() + ammount / 2);
-	return someBest;
-}
+//vector<CIndividual*> CGeneticAlgorithm::getSomeBestAndSortPopulations(int ammount)
+//{
+//	if (population1.empty() || population2.empty())
+//	{
+//		cout << "sraka";
+//	}
+//	cout << "sraka";
+//	vector<CIndividual*> someBest;
+//	//taken from first
+//	CIndividual::selectSortChildren(population1);
+//	CIndividual::selectSortChildren(population2);
+//
+//	//taken form second
+//	someBest.insert(someBest.end(), population1.begin(), population1.begin() + ammount / 2);
+//	someBest.insert(someBest.end(), population2.begin(), population2.begin() + ammount / 2);
+//	return someBest;
+//}
