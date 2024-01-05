@@ -9,7 +9,7 @@ CGeneticAlgorithm::CGeneticAlgorithm(int population, double crossing, double mut
 	crossProb = crossing;
 	mutProb = mutation;
 
-	evaluator.bConfigure("g120d02");
+	evaluator.bConfigure("104b00");
 }
 
 void CGeneticAlgorithm::initialize()
@@ -41,7 +41,7 @@ void CGeneticAlgorithm::run(double maxTime)
 
 	int iters = 0;
 	//while (timeElapsed <= maxTime)
-	while(iters < 2000)
+	while(iters < 5000)
 	{
 		runIter();
 		counter.bGetTimePassed(&timeElapsed);
@@ -121,11 +121,7 @@ void CGeneticAlgorithm::crossPop()
 
 void CGeneticAlgorithm::mutatePop()
 {
-	double lastBest = population[population.size()-1]->dEvaluate();
-	for (int i = 0; i < population.size(); i++) 
-		if(population[i]->dEvaluate() > lastBest)
-			lastBest = population[i]->dEvaluate();
-		else {
+	for (int i = 0; i < population.size(); i++){
 			CIndividual mutated = population[i]->mutate(mutProb);
 			if (mutated.dEvaluate() > population[i]->dEvaluate()) {
 				delete population[i];

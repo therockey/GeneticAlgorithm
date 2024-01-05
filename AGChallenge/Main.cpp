@@ -31,9 +31,9 @@ void runGAlgorithm( int popSize, double crossProb, double mutProb) {
 
 void main(int iArgCount, char **ppcArgValues)
 {
-	int populationSize = 100;
-	double crossingProbability = 0.9;
-	double mutationProbability = 0.4;
+	int populationSize = 1000;
+	double crossingProbability = 0.7;
+	double mutationProbability = 0.25;
 
 	runGAlgorithm( populationSize, crossingProbability, mutationProbability);
 	

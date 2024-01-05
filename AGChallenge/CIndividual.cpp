@@ -81,7 +81,7 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 	//else {
 
 		for (int x = 0; x < genotype->size(); x++)
-			if (lRand(10) > 5) {
+			if (lRand(10) > 4) {
 				childGenotype1.push_back((*genotype)[x]);
 				childGenotype2.push_back((*other.genotype)[x]);
 			}
@@ -101,8 +101,18 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 	result.push_back(child2);
 
 	selectSortChildren(result);
-	delete result.back();
-	result.pop_back();
+	
+	if(lRand(100)>90)
+	{
+		delete result[1];
+		result[1] = result[3];
+		result.pop_back();
+	}
+	else
+	{
+		delete result.back();
+		result.pop_back();
+	}
 	delete result.back();
 	result.pop_back();
 
