@@ -33,6 +33,7 @@ public:
 	void run(double time);
 	vector<Island*> islands;
 	void threadOperation(int i,int iters);
+	int  populationSize;
 	//CLFLnetEvaluator evaluator;
 	//vector<CIndividual*> population;
 	//int popSize; 

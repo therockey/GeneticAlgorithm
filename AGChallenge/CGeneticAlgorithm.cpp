@@ -4,19 +4,17 @@
 #include <thread>
 using namespace TimeCounters;
 
-
-
-
 CGeneticAlgorithm::CGeneticAlgorithm(CString algoName)
 {
 
-	int populationSize = 1000;
+	populationSize = 200;
 	double crossingProbability = 0.9;
 	double mutationProbability = 0.25;
 
-	for (int i = 0;i < 3;i++)
+	for (int i = 0;i < 10;i++)
 	{
-		islands.push_back(new Island(populationSize, crossingProbability, mutationProbability, algoName));
+		double muProb =(double) 1 /(double) (i + 1);
+		islands.push_back(new Island(populationSize, muProb, muProb, algoName));
 	}
 	
 }
@@ -36,21 +34,44 @@ void CGeneticAlgorithm::run(double time)
 	counter.vSetStartNow();
 	counter.bGetTimePassed(&timeElapsed);
 	int allit = 0;
-	while (timeElapsed <= time)
+	while (timeElapsed<=time)
 	{
-		int iters = 2;
-		
+
+		int iters = 25;
+		cout << endl << "This is the " << allit * iters << ". iteration!"<<endl << endl;
+
 		for (int i = 0;i < islands.size();i++)
 		{
 			thread t(&CGeneticAlgorithm::threadOperation, this, i, iters);
 			threads.push_back(std::move(t));
 		}
-		for (int i = 0; i < threads.size(); ++i) {
+		for (int i = 0; i < threads.size(); ++i) 
 			threads[i].join();
-		}
+		
 
 		threads.clear();
 		allit++;
+		cout << endl;
+		//cout << endl<<"after migration" << endl;
+
+		for (int i = populationSize/7;i < populationSize/2;i++)
+		{
+			CIndividual* temp = islands[islands.size() - 1]->population[i];
+			for (int j = 0;j < islands.size();j++)
+			{
+				CIndividual*  temp2 = temp;
+				temp = islands[j]->population[i];
+				islands[j]->population[i] = temp2;
+			}
+
+		}
+
+		for (int i = 0;i < islands.size();i++) 
+			islands[i]->getBestSolution();
+		
+		
+		counter.bGetTimePassed(&timeElapsed);
+		//cout << "Time elapsed: " << timeElapsed << endl;
 	}
 	
 	
