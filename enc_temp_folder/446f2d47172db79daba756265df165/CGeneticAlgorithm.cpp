@@ -12,7 +12,8 @@ CGeneticAlgorithm::CGeneticAlgorithm(CString algoName)
 	double mutationProbability = 0.25;
 	islands.push_back(new Island(populationSize, 0.9, 0.3, algoName));
 
-	for (int i = 0; i < 4;i++){
+	for (int i = 0; i < 4;i++)
+	{
 		double muProb =(double) 1 /(double) (i + 1);
 		islands.push_back(new Island(populationSize, muProb, dRand(), algoName));
 	}

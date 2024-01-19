@@ -80,7 +80,6 @@ pair<vector<int>*, vector<int>*>* CIndividual::shuffleCrossover(const CIndividua
 
 vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividual& other){
 	vector<CIndividual*> result;
-
 	result.push_back(new CIndividual(*this, evaluator));
 	result.push_back(new CIndividual(other, evaluator));
 

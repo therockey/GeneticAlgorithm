@@ -12,7 +12,7 @@ using namespace TimeCounters;
 
 using namespace std;
 
-#define dMAX_TIME 1.5* 60
+#define dMAX_TIME 48 * 60 * 60
 
 
 
@@ -26,6 +26,6 @@ void main(int iArgCount, char **ppcArgValues)
 {
 
 
-	runGAlgorithm( "104b00");
+	runGAlgorithm( "104b07");
 	
 }

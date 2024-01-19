@@ -24,6 +24,10 @@ public:
 	void fillRandomly(vector<int>& gen);
 	void crossPop();
 	void mutatePop();
+
+	pair<int, int> tournamentSelection();
+	pair<int, int> randomSelection();
+	pair<int, int> comunistSelection(vector<int> visited);
 };
 
 class CGeneticAlgorithm
@@ -34,6 +38,7 @@ public:
 	vector<Island*> islands;
 	void threadOperation(int i,int iters);
 	int  populationSize;
+
 	//CLFLnetEvaluator evaluator;
 	//vector<CIndividual*> population;
 	//int popSize; 
