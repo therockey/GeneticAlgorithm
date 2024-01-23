@@ -4,7 +4,6 @@
 #include <thread>
 using namespace TimeCounters;
 
-
 CGeneticAlgorithm::CGeneticAlgorithm(CString algoName)
 {
 
@@ -13,7 +12,8 @@ CGeneticAlgorithm::CGeneticAlgorithm(CString algoName)
 	double mutationProbability = 0.25;
 	islands.push_back(new Island(populationSize, 0.9, 0.3, algoName));
 
-	for (int i = 0; i < 4;i++){
+	for (int i = 0; i < 4;i++)
+	{
 		double muProb =(double) 1 /(double) (i + 1);
 		islands.push_back(new Island(populationSize, muProb, dRand(), algoName));
 	}
@@ -79,7 +79,6 @@ void CGeneticAlgorithm::threadOperation(int i,int iters){
 
 
 Island::Island(int population, double crossing, double mutation,CString algoName){
-
 	popSize = population;
 	crossProb = crossing;
 	mutProb = mutation;
@@ -87,9 +86,7 @@ Island::Island(int population, double crossing, double mutation,CString algoName
 	evaluator.bConfigure(algoName);
 }
 
-
 void Island::initialize(){
-
 	vector<int> genotype;
 
 	for (int i = 0; i < popSize; i++) {
@@ -232,7 +229,6 @@ void Island::crossPop(){
 
 		delete population[parents.first];
 		delete population[parents.second];
-
 
 		population[parents.first]= children[0];
 		population[parents.second] = children[1];

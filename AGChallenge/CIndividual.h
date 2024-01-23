@@ -6,23 +6,25 @@ using namespace std;
 
 class CIndividual
 {
-    friend class CGeneticAlgorithm;
-    friend class IslandModel;
+
 public:
-    CIndividual();
-    CIndividual(const int& genSize);
-    CIndividual(const vector<int>& gen);
-    CIndividual(const CIndividual& other);
+    CIndividual(CLFLnetEvaluator& eval);
+    CIndividual(const int& genSize, CLFLnetEvaluator& eval);
+    CIndividual(const vector<int>& gen, CLFLnetEvaluator& eval);
+    CIndividual(const CIndividual& other, CLFLnetEvaluator& eval);
     ~CIndividual();
+
+    pair<vector<int>*, vector<int>*>* onePointCrossover(const CIndividual& other);
+    pair<vector<int>*, vector<int>*>* shuffleCrossover(const CIndividual& other);
+
     double dEvaluate() const;
     CIndividual mutate(const double& MutProb);
     vector<CIndividual*> cross(const double& CrossProb, const CIndividual& other);
-    static void setEvaluator(CLFLnetEvaluator* eval);
     void setGenotype(const vector<int>& other);
     int getGenotypeSize();
     vector<int> getGenotype();
 private:
     vector<int>* genotype;
-    static CLFLnetEvaluator* evaluator;
-    static void selectSortChildren(vector<CIndividual*>& other);
+    CLFLnetEvaluator& evaluator;
+    void selectSortChildren(vector<CIndividual*>& other);
 };
