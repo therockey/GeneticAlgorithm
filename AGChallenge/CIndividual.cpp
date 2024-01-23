@@ -46,16 +46,16 @@ pair<vector<int>*, vector<int>*>* CIndividual::onePointCrossover(const CIndividu
 	vector<int> childGenotype1;
 	vector<int> childGenotype2;
 
-	int crossPoint = lRand(genotype->size() - 2);
+	int crossPoint = lRand(genotype->size());
 
-	for (int x = 0; x < genotype->size(); x++)
-		if (x < crossPoint) {
-			childGenotype1.push_back((*genotype)[x]);
-			childGenotype2.push_back((*other.genotype)[x]);
+	for (int i = 0; i < genotype->size(); i++)
+		if (i < crossPoint) {
+			childGenotype1.push_back((*genotype)[i]);
+			childGenotype2.push_back((*other.genotype)[i]);
 		}
 		else {
-			childGenotype1.push_back((*other.genotype)[x]);
-			childGenotype2.push_back((*genotype)[x]);
+			childGenotype1.push_back((*other.genotype)[i]);
+			childGenotype2.push_back((*genotype)[i]);
 		}
 
 	return new pair<vector<int>*, vector<int>*>(new vector<int>(childGenotype1), new vector<int>(childGenotype2));
@@ -103,7 +103,7 @@ vector<CIndividual*> CIndividual::cross(const double& CrossProb, const CIndividu
 	result.push_back(child1);
 	result.push_back(child2);
 
-	selectSortChildren(result);
+	sortChildren(result);
 	
 	delete result.back();
 	result.pop_back();
@@ -128,7 +128,7 @@ vector<int> CIndividual::getGenotype(){
 	return *genotype;
 }
 
-void CIndividual::selectSortChildren(vector<CIndividual*>& other){
+void CIndividual::sortChildren(vector<CIndividual*>& other){
 	for (int i = 0; i < other.size() - 1; i++) {
 		int index = i;
 		for (int j = i + 1; j < other.size(); j++) 

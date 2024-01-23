@@ -30,7 +30,7 @@ void main(int iArgCount, char **ppcArgValues)
 
 
 
-	runGAlgorithm( "104b07");
+	runGAlgorithm( "104b00");
 
 	
 }

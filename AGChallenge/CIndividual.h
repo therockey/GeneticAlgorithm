@@ -26,5 +26,5 @@ public:
 private:
     vector<int>* genotype;
     CLFLnetEvaluator& evaluator;
-    void selectSortChildren(vector<CIndividual*>& other);
+    void sortChildren(vector<CIndividual*>& other);
 };
