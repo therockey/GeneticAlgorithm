@@ -6,6 +6,7 @@ using namespace std;
 
 class CIndividual
 {
+
 public:
     CIndividual(CLFLnetEvaluator& eval);
     CIndividual(const int& genSize, CLFLnetEvaluator& eval);

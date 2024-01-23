@@ -11,6 +11,8 @@
 using namespace TimeCounters;
 
 using namespace std;
+#include "CGeneticAlgorithm.h"
+#include "IslandModel.h"
 
 #define dMAX_TIME 48 * 60 * 60
 
@@ -22,10 +24,13 @@ void runGAlgorithm( CString algoName) {
 	algo.run(dMAX_TIME);
 }
 
+
 void main(int iArgCount, char **ppcArgValues)
 {
 
 
+
 	runGAlgorithm( "104b07");
+
 	
 }

@@ -4,6 +4,7 @@
 #include <thread>
 using namespace TimeCounters;
 
+
 CGeneticAlgorithm::CGeneticAlgorithm(CString algoName)
 {
 
@@ -78,6 +79,7 @@ void CGeneticAlgorithm::threadOperation(int i,int iters){
 
 
 Island::Island(int population, double crossing, double mutation,CString algoName){
+
 	popSize = population;
 	crossProb = crossing;
 	mutProb = mutation;
@@ -85,7 +87,9 @@ Island::Island(int population, double crossing, double mutation,CString algoName
 	evaluator.bConfigure(algoName);
 }
 
+
 void Island::initialize(){
+
 	vector<int> genotype;
 
 	for (int i = 0; i < popSize; i++) {
@@ -228,6 +232,7 @@ void Island::crossPop(){
 
 		delete population[parents.first];
 		delete population[parents.second];
+
 
 		population[parents.first]= children[0];
 		population[parents.second] = children[1];

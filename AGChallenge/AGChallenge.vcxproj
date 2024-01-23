@@ -148,6 +148,7 @@
     <ClCompile Include="CIndividual.cpp" />
     <ClCompile Include="Evaluator.cpp" />
     <ClCompile Include="fitness.cpp" />
+    <ClCompile Include="IslandModel.cpp" />
     <ClCompile Include="list.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyMath.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="CIndividual.h" />
     <ClInclude Include="Evaluator.h" />
     <ClInclude Include="fitness.h" />
+    <ClInclude Include="IslandModel.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="NETsimulator.h" />

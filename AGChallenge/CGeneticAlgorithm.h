@@ -6,10 +6,13 @@
 
 class Island
 {
+	friend class IslandModel;
 public:
+
 	Island(int population, double crossing, double mutation, CString algoName);
 
 	CLFLnetEvaluator evaluator;
+
 	vector<CIndividual*> population;
 	int popSize;
 	double crossProb;
